@@ -1,0 +1,41 @@
+---
+import { getCollection } from "astro:content"
+import Layout from "../../layouts/Layout.astro"
+import Header from "../../components/Header.astro"
+import GalleryLink from "../../components/GalleryLink.astro"
+
+export async function getStaticPaths() {
+  return ["works", "series", "process"].map((galleryType) => ({
+    params: { galleryType },
+  }))
+}
+
+const { galleryType } = Astro.params
+const galleries = (await getCollection("galleries")).filter(
+  (entry) => entry.data.type === galleryType,
+)
+
+// Sort alphabetically by title for a consistent grid
+galleries.sort((a, b) => a.data.title.localeCompare(b.data.title))
+---
+
+<Layout
+  title={`${
+    galleryType.charAt(0).toUpperCase() + galleryType.slice(1)
+  } — Christopher Campbell`}
+>
+  <Header title={galleryType.charAt(0).toUpperCase() + galleryType.slice(1)} />
+
+  <section class="grid gap-6 md:grid-cols-3 lg:gap-12">
+    {
+      galleries.map((entry) => (
+        <GalleryLink
+          href={`/${galleryType}/${entry.data.slug || entry.slug}`}
+          title={entry.data.title}
+          image={entry.data.cover}
+          alt={entry.data.coverAlt || entry.data.title}
+        />
+      ))
+    }
+  </section>
+</Layout>

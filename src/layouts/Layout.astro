@@ -1,0 +1,39 @@
+---
+const {
+  title = "Christopher Campbell",
+  desc = "A painter and photographer with studios in Pennsylvania and Minnesota.",
+  img = "https://cbcampbell.com/og-image.jpg",
+  className = "mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8",
+} = Astro.props
+import { Font } from "astro:assets"
+import "../styles/global.css"
+import Analytics from "@vercel/analytics/astro"
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Christopher Campbell" />
+    <meta property="og:url" content="https://cbcampbell.com/" />
+    <title>{title}</title>
+    <meta property="og:title" content={title} />
+    <meta name="twitter:title" content={title} />
+    <meta name="description" content={desc} />
+    <meta property="og:description" content={desc} />
+    <meta name="twitter:description" content={desc} />
+    <meta property="og:image" content={img} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={img} />
+    <!-- <meta name="theme-color" content="oklch(0.67 0.18 117.23)" />
+    <Analytics />
+  </head>
+  <body class="antialiased">
+    <main class={className}>
+      <slot />
+    </main>
+  </body>
+</html>

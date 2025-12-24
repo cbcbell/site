@@ -1,0 +1,97 @@
+@layer reset {
+  html {
+    font-synthesis: none;
+  }
+}
+
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: var(--font-camera-plain);
+
+  --shadow-border: 0 0 0 1px rgba(0, 0, 0, 0.08);
+  --shadow-inset:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.08), 0 2px 2px rgba(0, 0, 0, 0.04);
+  --shadow-text: 0 1px 2px rgba(0, 0, 0, 0.25), 0 2px 4px rgba(0, 0, 0, 0.125);
+  --shadow-small:
+    0 1px 2px rgba(0, 0, 0, 0.0625), 0 2px 4px rgba(0, 0, 0, 0.0625);
+  --shadow-card:
+    0 0 0 1px rgba(0, 0, 0, 0.08), 0 1px 1px rgba(0, 0, 0, 0.02),
+    0 4px 8px -4px rgba(0, 0, 0, 0.04), 0 16px 24px -8px rgba(0, 0, 0, 0.06);
+  --shadow-elevated:
+    0 0 0 1px rgba(0, 0, 0, 0.08), 0 1px 1px rgba(0, 0, 0, 0.02),
+    0 8px 16px -4px rgba(0, 0, 0, 0.04), 0 24px 32px -8px rgba(0, 0, 0, 0.06);
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+@layer base {
+  body {
+    background-color: #fdfdfd;
+  }
+  li,
+  p {
+    color: #444;
+    text-wrap: pretty;
+  }
+
+  li a,
+  p a {
+    font-weight: inherit;
+    text-decoration: none;
+    background: linear-gradient(currentColor 0 0) no-repeat var(--p, 0) 100% /
+      var(--p, 100%) clamp(1.5px, 0.1em, 4px);
+    transition:
+      0.375s,
+      background-position 0s;
+
+    &:hover {
+      --p: 0%;
+    }
+  }
+}
+
+::view-transition-group(*) {
+  animation-duration: 0.375s;
+  animation-timing-function: ease-out;
+}
+
+::view-transition-group(root) {
+  animation-duration: 0.375s;
+  /* prettier-ignore */
+  animation-timing-function: linear(
+    0, 0.218 2.1%, 0.862 6.5%, 1.114, 1.296 10.7%, 1.346, 1.37 12.9%, 1.373,
+    1.364 14.5%, 1.315 16.2%, 1.032 21.8%, 0.941 24%, 0.891 25.9%, 0.877,
+    0.869 27.8%, 0.87, 0.882 30.7%, 0.907 32.4%, 0.981 36.4%, 1.012 38.3%, 1.036,
+    1.046 42.7% 44.1%, 1.042 45.7%, 0.996 53.3%, 0.988, 0.984 57.5%, 0.985 60.7%,
+    1.001 68.1%, 1.006 72.2%, 0.998 86.7%, 1
+  );
+}
+
+details {
+  @media (prefers-reduced-motion: no-preference) {
+    interpolate-size: allow-keywords;
+  }
+
+  &::details-content {
+    opacity: 0;
+    block-size: 0;
+    overflow-y: clip;
+    transition:
+      content-visibility 0.375s allow-discrete,
+      opacity 0.375s,
+      block-size 0.375s;
+  }
+
+  &[open]::details-content {
+    opacity: 1;
+    block-size: auto;
+  }
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}

@@ -1,0 +1,38 @@
+---
+import Layout from "../layouts/Layout.astro"
+import NavBar from "../components/NavBar.astro"
+import { Image } from "astro:assets"
+import portrait from "../assets/about/portrait.jpg"
+import Bio from "../content/about/bio.mdx"
+import CV from "../content/about/cv.mdx"
+---
+
+<Layout
+  title="About — Christopher Campbell"
+  desc="Biography, curriculum vitae, and background for painter and photographer Christopher Campbell."
+>
+  <NavBar />
+
+  <section
+    class="mt-12 grid gap-10 lg:mt-16 lg:grid-cols-[1fr_2fr] lg:items-start lg:gap-12"
+  >
+    <Image
+      src={portrait}
+      alt="Christopher Campbell working in the studio"
+      class="w-full max-w-xl object-cover"
+      sizes="(min-width: 1024px) 40vw, 100vw"
+    />
+    <article>
+      <div
+        class="prose prose-neutral mb-8 max-w-none text-lg leading-relaxed md:mb-12 md:text-xl"
+      >
+        <Bio />
+      </div>
+      <div
+        class="prose prose-neutral prose-ul:list-none prose-ul:pl-0 prose-li:pl-0 max-w-none leading-relaxed"
+      >
+        <CV />
+      </div>
+    </article>
+  </section>
+</Layout>

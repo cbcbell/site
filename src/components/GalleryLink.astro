@@ -1,0 +1,35 @@
+---
+import type { ImageMetadata } from "astro"
+import { Image } from "astro:assets"
+
+type Props = {
+  href: string
+  title: string
+  image: ImageMetadata
+  alt?: string
+}
+
+const { href, title, image, alt = title } = Astro.props as Props
+---
+
+<a
+  href={href}
+  class="group block space-y-4 transition hover:opacity-90 focus-visible:opacity-90"
+>
+  <Image
+    src={image}
+    alt={alt}
+    class="aspect-[2/1] w-full object-cover md:aspect-[2/3]"
+    sizes="(min-width: 1024px) 25vw, (min-width: 768px) 30vw, 100vw"
+    loading="lazy"
+  />
+  <div class="flex items-end justify-between gap-3 text-lg md:text-xl">
+    <span>{title}</span>
+    <span
+      aria-hidden
+      class="text-neutral-500 transition duration-150 ease-out group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5"
+    >
+      →
+    </span>
+  </div>
+</a>

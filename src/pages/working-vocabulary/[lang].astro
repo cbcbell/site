@@ -1,0 +1,84 @@
+---
+import { Image } from "astro:assets"
+import { getCollection } from "astro:content"
+import { imageGroups } from "../../content/workingVocabulary/images"
+import Layout from "../../layouts/Layout.astro"
+import NavBar from "../../components/NavBar.astro"
+
+const LANGUAGES = [
+  { code: "en", label: "English" },
+  { code: "fr", label: "Français" },
+  { code: "zh", label: "中文" },
+] as const
+
+export async function getStaticPaths() {
+  return ["en", "fr", "zh"].map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params
+const entries = await getCollection("workingVocabulary")
+const entry = entries.find((item) => item.slug === lang)
+
+if (!entry) {
+  return Astro.redirect("/working-vocabulary/en")
+}
+
+const { title, sections } = entry.data
+const imagesGroups = imageGroups
+---
+
+<Layout title={`${title} — Christopher Campbell`}>
+  <header class="flex flex-col gap-8 lg:gap-12">
+    <NavBar />
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h1 class="text-2xl md:text-4xl">{title}</h1>
+      <div class="flex items-center gap-2 text-sm">
+        {
+          LANGUAGES.map(({ code, label }) => (
+            <a
+              href={`/working-vocabulary/${code}`}
+              class:list={[
+                "px-3 py-1 transition",
+                code === lang
+                  ? "bg-black text-white"
+                  : "bg-neutral-100 hover:bg-neutral-200",
+              ]}
+              aria-current={code === lang ? "page" : "false"}
+            >
+              {label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </header>
+
+  <section class="mt-16 flex flex-col gap-8 lg:gap-24">
+    {
+      sections.map((section, index) => {
+        const imgs = imagesGroups[index] ?? []
+        return (
+          <div class="grid gap-6 md:gap-12">
+            <div class="max-w-2xl">
+              <h2 class="mb-4 text-xl md:text-3xl">{section.heading}</h2>
+              <p class="text-base leading-relaxed md:text-lg">{section.body}</p>
+            </div>
+            <div class="grid items-center gap-4 md:grid-cols-2 md:gap-8">
+              {imgs.map((img) => (
+                <Image
+                  src={img}
+                  alt=""
+                  class="w-full object-contain"
+                  loading="lazy"
+                  sizes="(min-width: 1024px) 30vw, 100vw"
+                />
+              ))}
+            </div>
+          </div>
+        )
+      })
+    }
+  </section>
+</Layout>

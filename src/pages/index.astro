@@ -1,0 +1,80 @@
+---
+import { getCollection } from "astro:content"
+import Layout from "../layouts/Layout.astro"
+import GalleryLink from "../components/GalleryLink.astro"
+import NewsletterIssue from "../components/NewsletterIssue.astro"
+import Header from "../components/Header.astro"
+import { Vimeo } from "astro-embed"
+
+const galleryLinks = (
+  await getCollection("galleries", ({ data }) => data.type === "series")
+)
+  .map((gallery) => ({
+    href: `/series/${gallery.data.slug ?? gallery.slug ?? ""}`,
+    title: gallery.data.title,
+    image: gallery.data.cover,
+    alt: gallery.data.coverAlt ?? gallery.data.title,
+  }))
+
+const newsletters = (await getCollection("newsletters")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+)
+---
+
+<Layout
+  title="Christopher Campbell"
+  desc="A painter and photographer with studios in Pennsylvania and Minnesota."
+>
+  <Header
+    title="A painter and photographer with studios in Pennsylvania and Minnesota."
+  />
+
+  <section class="grid gap-12 lg:grid-cols-[2fr_1fr] lg:gap-16">
+    <div>
+      <div class="mb-8 grid gap-6 md:mb-12 md:grid-cols-3 md:gap-8">
+        {galleryLinks.map((item) => <GalleryLink {...item} />)}
+      </div>
+
+      <Vimeo
+        id="1028970187"
+        params="title=0&byline=0&portrait=0&color=111827"
+      />
+    </div>
+
+    <aside class="flex flex-col gap-6 md:gap-8">
+      <div class="flex flex-col gap-4">
+        <h2 class="-mb-2 text-xl">Newsletter</h2>
+        <form
+          action="https://buttondown.email/api/emails/embed-subscribe/cbcampbell"
+          method="post"
+          target="popupwindow"
+          onsubmit="window.open('https://buttondown.email/cbcampbell', 'popupwindow')"
+          class="flex items-end gap-3"
+        >
+          <div class="flex-1">
+            <label class="mb-2 block text-neutral-500" for="bd-email">
+              Seasonal updates from the studio
+            </label>
+            <input
+              id="bd-email"
+              name="email"
+              type="email"
+              required
+              placeholder="you@example.com"
+              class="w-full bg-neutral-200 px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-800"
+            />
+            <input type="hidden" value="1" name="embed" />
+          </div>
+          <button
+            type="submit"
+            class="cursor-pointer bg-neutral-800 px-4 py-2 text-sm text-white transition hover:bg-neutral-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-800"
+          >
+            Subscribe
+          </button>
+        </form>
+
+        {newsletters.map((issue) => <NewsletterIssue {...issue.data} />)}
+      </div>
+    </aside>
+  </section>
+</Layout>

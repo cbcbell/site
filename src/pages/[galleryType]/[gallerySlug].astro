@@ -1,0 +1,45 @@
+---
+import { getCollection } from "astro:content"
+import Layout from "../../layouts/Layout.astro"
+import Header from "../../components/Header.astro"
+import Gallery from "../../components/Gallery.astro"
+
+export async function getStaticPaths() {
+  const entries = await getCollection("galleries")
+  return entries.map((entry) => ({
+    params: {
+      galleryType: entry.data.type,
+      gallerySlug: entry.data.slug || entry.slug,
+    },
+  }))
+}
+
+const { galleryType, gallerySlug } = Astro.params
+const entries = await getCollection("galleries")
+const entry = entries.find(
+  (item) =>
+    item.data.type === galleryType &&
+    (item.data.slug === gallerySlug || item.slug === gallerySlug),
+)
+
+if (!entry) {
+  return Astro.redirect("/works")
+}
+
+const { title, cover, coverAlt } = entry.data
+const galleryFolder =
+  entry.id?.replace(/^galleries\//, "").replace(/\.[^.]+$/, "") ||
+  entry.slug ||
+  gallerySlug
+---
+
+<Layout title={`${title} — Christopher Campbell`}>
+  <Header title={title} />
+
+  <Gallery
+    galleryFolder={galleryFolder}
+    title={title}
+    cover={cover}
+    coverAlt={coverAlt}
+  />
+</Layout>

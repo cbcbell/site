@@ -1,0 +1,37 @@
+---
+import type { ImageMetadata } from "astro"
+import { Image } from "astro:assets"
+
+type Props = {
+  title: string
+  date: Date
+  url: string
+  image: ImageMetadata
+  imageAlt?: string
+}
+
+const { title, date, url, image, imageAlt = title } = Astro.props as Props
+const formattedDate = new Intl.DateTimeFormat("en", {
+  month: "long",
+  year: "numeric",
+}).format(date)
+---
+
+<a
+  href={url}
+  class="grid grid-cols-[1fr_94px] items-center gap-4 bg-neutral-100 pl-4 transition hover:bg-neutral-200"
+>
+  <div class="">
+    <span class="block leading-snug text-pretty">{title}</span>
+    <time dateTime={date} class="text-sm text-neutral-500">
+      {formattedDate}
+    </time>
+  </div>
+  <Image
+    src={image}
+    alt={imageAlt}
+    class="aspect-square h-full w-full object-cover object-left"
+    sizes="94px"
+    loading="lazy"
+  />
+</a>

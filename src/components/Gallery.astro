@@ -1,0 +1,119 @@
+---
+import type { ImageMetadata } from "astro"
+import { Image } from "astro:assets"
+import exifr from "exifr"
+import { fileURLToPath } from "node:url"
+import "@fancyapps/ui/dist/fancybox/fancybox.css"
+import { Fancybox } from "@fancyapps/ui/dist/fancybox/"
+
+type Props = {
+  galleryFolder: string
+  title: string
+  cover: ImageMetadata
+  coverAlt?: string
+}
+
+const { galleryFolder, title, cover, coverAlt } = Astro.props
+
+const imageModules = import.meta.glob<{ default: ImageMetadata }>(
+  "../content/galleries/**/*.{jpg,jpeg,png}",
+  { eager: true },
+)
+
+const galleryImages = await Promise.all(
+  Object.entries(imageModules)
+    .filter(([path]) => path.includes(`/galleries/${galleryFolder}/`))
+    .sort(([pathA], [pathB]) => pathA.localeCompare(pathB))
+    .map(async ([path, mod]) => {
+      const filename = path.split("/").pop() || title
+      const alt =
+        filename
+          .replace(/\.[^.]+$/, "")
+          .replace(/[_-]+/g, " ")
+          .trim() || title
+
+      let caption: string | undefined
+      try {
+        const fileUrl = new URL(path, import.meta.url)
+        const exif = await exifr.parse(fileURLToPath(fileUrl), [
+          "ImageDescription",
+          "Description",
+        ])
+        caption = exif?.ImageDescription || exif?.Description
+      } catch {
+        caption = undefined
+      }
+
+      return {
+        src: mod.default,
+        width: mod.default.width,
+        height: mod.default.height,
+        alt,
+        caption,
+      }
+    }),
+)
+---
+
+{
+  galleryImages.length ? (
+    <section
+      class="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-8 lg:grid-cols-4"
+      id="fancybox"
+    >
+      {galleryImages.map((image, i) => (
+        <a
+          style={`--width: ${image.width}; --height: ${image.height};`}
+          href={image.src.src}
+          target="_blank"
+          data-fancybox="gallery"
+          data-caption={image.caption || image.alt || title}
+        >
+          <Image
+            src={image.src}
+            alt={image.alt || title}
+            class="h-full w-full object-cover"
+            loading={i < 8 ? "eager" : "lazy"}
+            sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+          />
+        </a>
+      ))}
+    </section>
+  ) : (
+    <section class="mt-8 space-y-6">
+      <Image
+        src={cover}
+        alt={coverAlt || title}
+        class="w-full max-w-4xl rounded-sm object-cover"
+        loading="lazy"
+        sizes="(min-width: 1024px) 60vw, 100vw"
+      />
+    </section>
+  )
+}
+
+<script>
+  import { Fancybox } from "@fancyapps/ui/dist/fancybox/"
+
+  Fancybox.bind("[data-fancybox]", {
+    theme: "auto",
+    mainStyle: {
+      "--f-button-width": "44px",
+      "--f-button-height": "44px",
+      "--f-button-border-radius": "50%",
+      "--f-toolbar-padding": "16px",
+      "--f-toolbar-gap": "8px",
+    },
+    Carousel: {
+      Arrows: false,
+      Toolbar: {
+        display: {
+          left: [],
+          middle: [],
+          right: ["toggleFull", "thumbs", "close"],
+        },
+      },
+      transition: "slide",
+    },
+  })
+</script>

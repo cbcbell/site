@@ -1,0 +1,24 @@
+---
+const navLinks = [
+  { href: "/series", label: "Series" },
+  { href: "/works", label: "Works" },
+  { href: "/process", label: "Process" },
+  { href: "/working-vocabulary/en", label: "Working Vocabulary" },
+  { href: "/about", label: "About" },
+]
+---
+
+<nav
+  class="flex flex-wrap items-baseline justify-between gap-4 text-sm sm:text-base"
+>
+  <a class="text-lg sm:text-xl" href="/">Christopher Campbell</a>
+  <div class="flex flex-wrap items-center gap-4 sm:gap-6">
+    {
+      navLinks.map((link) => (
+        <a class="hover:underline" href={link.href}>
+          {link.label}
+        </a>
+      ))
+    }
+  </div>
+</nav>
