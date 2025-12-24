@@ -4,6 +4,7 @@ import Layout from "~/layouts/Layout.astro"
 import GalleryLink from "~/components/GalleryLink.astro"
 import NewsletterIssue from "~/components/NewsletterIssue.astro"
 import Header from "~/components/Header.astro"
+import Socials from "~/components/Socials.astro"
 import { Vimeo } from "astro-embed"
 
 const galleryLinks = (
@@ -75,6 +76,8 @@ const newsletters = (await getCollection("newsletters")).sort(
 
         {newsletters.map((issue) => <NewsletterIssue {...issue.data} />)}
       </div>
+
+      <Socials />
     </aside>
   </section>
 </Layout>
