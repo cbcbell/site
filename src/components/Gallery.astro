@@ -15,13 +15,13 @@ type Props = {
 const { galleryFolder, title, cover, coverAlt } = Astro.props
 
 const imageModules = import.meta.glob<{ default: ImageMetadata }>(
-  "../content/galleries/**/*.{jpg,jpeg,png}",
+  "../assets/sync/**/*.{jpg,jpeg,png}",
   { eager: true },
 )
 
 const galleryImages = await Promise.all(
   Object.entries(imageModules)
-    .filter(([path]) => path.includes(`/galleries/${galleryFolder}/`))
+    .filter(([path]) => path.includes(`/${galleryFolder}/`))
     .sort(([pathA], [pathB]) => pathA.localeCompare(pathB))
     .map(async ([path, mod]) => {
       const filename = path.split("/").pop() || title
