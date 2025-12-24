@@ -1,8 +1,8 @@
 ---
 import { getCollection } from "astro:content"
-import Layout from "../../layouts/Layout.astro"
-import Header from "../../components/Header.astro"
-import GalleryLink from "../../components/GalleryLink.astro"
+import Layout from "~/layouts/Layout.astro"
+import Header from "~/components/Header.astro"
+import GalleryLink from "~/components/GalleryLink.astro"
 
 export async function getStaticPaths() {
   return ["works", "series", "process"].map((galleryType) => ({

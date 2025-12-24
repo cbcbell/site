@@ -6,7 +6,7 @@ const {
   className = "mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8",
 } = Astro.props
 import { Font } from "astro:assets"
-import "../styles/global.css"
+import "~/styles/global.css"
 import Analytics from "@vercel/analytics/astro"
 ---
 
@@ -29,6 +29,8 @@ import Analytics from "@vercel/analytics/astro"
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={img} />
     <!-- <meta name="theme-color" content="oklch(0.67 0.18 117.23)" />
+    /> -->
+    <Font cssVariable="--font-camera-plain" preload />
     <Analytics />
   </head>
   <body class="antialiased">
