@@ -23,7 +23,6 @@ export default defineConfig({
         provider: "local",
         variants: [
           {
-            style: "normal",
             src: [
               "./src/assets/fonts/ABCCameraPlainVariableEdu-Regular.woff2",
               "./src/assets/fonts/ABCCameraPlainVariableEdu-Regular.woff",
