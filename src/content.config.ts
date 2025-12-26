@@ -1,4 +1,10 @@
+import type { ImageMetadata } from "astro"
 import { defineCollection, z } from "astro:content"
+
+const coverImages = import.meta.glob<{ default: ImageMetadata }>(
+  "./assets/sync/gallery-covers/*.{jpg,jpeg,png}",
+  { eager: true },
+)
 
 const newsletters = defineCollection({
   type: "content",
@@ -14,15 +20,25 @@ const newsletters = defineCollection({
 
 const galleries = defineCollection({
   type: "content",
-  schema: ({ image }) =>
-    z.object({
-      title: z.string(),
-      slug: z.string().optional(),
-      type: z.enum(["works", "series", "process"]),
-      cover: image(),
-      coverAlt: z.string().optional(),
-      newsletterUrl: z.string().url().optional(),
-    }),
+  schema: () =>
+    z
+      .object({
+        title: z.string(),
+        slug: z.string(),
+        type: z.enum(["works", "series", "process"]),
+        newsletterUrl: z.string().url().optional(),
+      })
+      .transform((data) => {
+        const cover =
+          coverImages[`./assets/sync/gallery-covers/${data.slug}.jpg`] ??
+          coverImages[`./assets/sync/gallery-covers/${data.slug}.jpeg`] ??
+          coverImages[`./assets/sync/gallery-covers/${data.slug}.png`]
+
+        return {
+          ...data,
+          cover: cover?.default,
+        }
+      }),
 })
 
 const workingVocabulary = defineCollection({

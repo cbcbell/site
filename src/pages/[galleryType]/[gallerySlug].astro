@@ -26,7 +26,7 @@ if (!entry) {
   return Astro.redirect("/works")
 }
 
-const { title, cover, coverAlt, newsletterUrl } = entry.data
+const { title, newsletterUrl, cover } = entry.data
 const galleryFolder =
   entry.id?.replace(/^galleries\//, "").replace(/\.[^.]+$/, "") ||
   entry.slug ||
@@ -58,10 +58,5 @@ const galleryFolder =
     }
   </Header>
 
-  <Gallery
-    galleryFolder={galleryFolder}
-    title={title}
-    cover={cover}
-    coverAlt={coverAlt}
-  />
+  <Gallery galleryFolder={galleryFolder} title={title} cover={cover} />
 </Layout>

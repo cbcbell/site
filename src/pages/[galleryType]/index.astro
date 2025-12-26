@@ -28,14 +28,17 @@ galleries.sort((a, b) => a.data.title.localeCompare(b.data.title))
 
   <section class="grid gap-6 md:grid-cols-3 lg:gap-12">
     {
-      galleries.map((entry) => (
-        <GalleryLink
-          href={`/${galleryType}/${entry.data.slug || entry.slug}`}
-          title={entry.data.title}
-          image={entry.data.cover}
-          alt={entry.data.coverAlt || entry.data.title}
-        />
-      ))
+      galleries.map((entry) => {
+        const slug = entry.data.slug || entry.slug
+        return (
+          <GalleryLink
+            href={`/${galleryType}/${slug}`}
+            title={entry.data.title}
+            image={entry.data.cover}
+            alt={entry.data.title}
+          />
+        )
+      })
     }
   </section>
 </Layout>

@@ -8,11 +8,10 @@ import "@fancyapps/ui/dist/fancybox/fancybox.css"
 type Props = {
   galleryFolder: string
   title: string
-  cover: ImageMetadata
-  coverAlt?: string
+  cover?: ImageMetadata
 }
 
-const { galleryFolder, title, cover, coverAlt } = Astro.props
+const { galleryFolder, title, cover } = Astro.props
 
 const imageModules = import.meta.glob<{ default: ImageMetadata }>(
   "../assets/sync/**/*.{jpg,jpeg,png}",
@@ -80,13 +79,17 @@ const galleryImages = await Promise.all(
     </section>
   ) : (
     <section class="mt-8">
-      <Image
-        src={cover}
-        alt={coverAlt || title}
-        class="w-full max-w-4xl"
-        loading="lazy"
-        sizes="(min-width: 1024px) 60vw, 100vw"
-      />
+      {cover ? (
+        <Image
+          src={cover}
+          alt={title}
+          class="w-full max-w-4xl"
+          loading="lazy"
+          sizes="(min-width: 1024px) 60vw, 100vw"
+        />
+      ) : (
+        <p class="text-neutral-500">Images coming soon.</p>
+      )}
     </section>
   )
 }
