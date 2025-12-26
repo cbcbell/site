@@ -44,7 +44,7 @@ const galleries = defineCollection({
 
         return {
           ...data,
-          cover: cover?.default,
+          cover,
           coverUrl: `https://s3.us-west-001.backblazeb2.com/cbcampbell-com/gallery-covers/${data.type}-${data.typeSlug}.jpg`,
         }
       }),
