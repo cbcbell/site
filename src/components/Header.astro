@@ -1,18 +1,30 @@
 ---
 import NavBar from "./NavBar.astro"
+import type { AstroComponentChildren } from "astro/types"
 
 type Props = {
   title: string
+  children?: AstroComponentChildren
 }
 
 const { title } = Astro.props as Props
+const hasChildren = Astro.slots.has("default")
 ---
 
 <header class="mb-8 flex flex-col gap-8 lg:mb-12">
   <NavBar />
-  <h1
-    class="max-w-2xl text-3xl leading-snug tracking-tight text-balance md:text-4xl"
-  >
-    {title}
-  </h1>
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <h1
+      class="max-w-2xl text-3xl leading-snug tracking-tight text-balance md:text-4xl"
+    >
+      {title}
+    </h1>
+    {
+      hasChildren && (
+        <div class="flex items-center gap-3">
+          <slot />
+        </div>
+      )
+    }
+  </div>
 </header>

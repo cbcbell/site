@@ -3,7 +3,7 @@ import { Image } from "astro:assets"
 import { getCollection } from "astro:content"
 import { imageGroups } from "~/content/workingVocabulary/images"
 import Layout from "~/layouts/Layout.astro"
-import NavBar from "~/components/NavBar.astro"
+import Header from "~/components/Header.astro"
 
 const LANGUAGES = [
   { code: "en", label: "English" },
@@ -30,30 +30,26 @@ const imagesGroups = imageGroups
 ---
 
 <Layout title={`${title} — Christopher Campbell`}>
-  <header class="flex flex-col gap-8 lg:gap-12">
-    <NavBar />
-    <div class="flex flex-wrap items-center justify-between gap-3">
-      <h1 class="text-2xl md:text-4xl">{title}</h1>
-      <div class="flex items-center gap-2 text-sm">
-        {
-          LANGUAGES.map(({ code, label }) => (
-            <a
-              href={`/working-vocabulary/${code}`}
-              class:list={[
-                "px-3 py-1 transition",
-                code === lang
-                  ? "bg-black text-white"
-                  : "bg-neutral-100 hover:bg-neutral-200",
-              ]}
-              aria-current={code === lang ? "page" : "false"}
-            >
-              {label}
-            </a>
-          ))
-        }
-      </div>
+  <Header title={title}>
+    <div class="flex items-center gap-2 text-sm">
+      {
+        LANGUAGES.map(({ code, label }) => (
+          <a
+            href={`/working-vocabulary/${code}`}
+            class:list={[
+              "px-3 py-1 transition",
+              code === lang
+                ? "bg-black text-white"
+                : "bg-neutral-100 hover:bg-neutral-200",
+            ]}
+            aria-current={code === lang ? "page" : "false"}
+          >
+            {label}
+          </a>
+        ))
+      }
     </div>
-  </header>
+  </Header>
 
   <section class="mt-16 flex flex-col gap-8 lg:gap-24">
     {
