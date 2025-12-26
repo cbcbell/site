@@ -44,6 +44,9 @@ export default defineConfig({
   image: {
     domains: ["s3.us-west-001.backblazeb2.com"],
   },
+  prefetch: {
+    defaultStrategy: "viewport",
+  },
   redirects: {
     "/paintings": "/works/paintings",
     "/drawings": "/works/paper",

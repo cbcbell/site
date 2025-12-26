@@ -13,7 +13,7 @@ import CV from "~/content/about/cv.mdx"
 >
   <NavBar />
 
-  <section
+  <article
     class="mt-12 grid gap-10 lg:mt-16 lg:grid-cols-[1fr_2fr] lg:items-start lg:gap-12"
   >
     <Image
@@ -22,17 +22,17 @@ import CV from "~/content/about/cv.mdx"
       class="w-full max-w-xl object-cover"
       sizes="(min-width: 1024px) 40vw, 100vw"
     />
-    <article>
-      <div
-        class="prose prose-neutral mb-8 max-w-none text-lg leading-relaxed md:mb-12 md:text-xl"
+    <div>
+      <section
+        class="text-trim-start prose prose-neutral mb-8 max-w-none text-lg leading-relaxed md:mb-12 md:text-xl"
       >
         <Bio />
-      </div>
-      <div
+      </section>
+      <section
         class="prose prose-neutral prose-ul:list-none prose-ul:pl-0 prose-li:pl-0 max-w-none leading-relaxed"
       >
         <CV />
-      </div>
-    </article>
-  </section>
+      </section>
+    </div>
+  </article>
 </Layout>

@@ -45,6 +45,12 @@ p a {
   }
 }
 
+@layer utilities {
+  .text-trim-start {
+    text-box-trim: trim-start;
+  }
+}
+
 @view-transition {
   navigation: auto;
 }
