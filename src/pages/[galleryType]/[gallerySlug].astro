@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content"
+import { getImage } from "astro:assets"
 import Layout from "~/layouts/Layout.astro"
 import Header from "~/components/Header.astro"
 import Gallery from "~/components/Gallery.astro"
@@ -28,13 +29,14 @@ if (!entry) {
 
 const { title, newsletterUrl } = entry.data
 const cover = entry.data.cover
+const coverUrl = cover ? getImage({ src: cover.src, format: "jpg" }) : undefined
 const galleryFolder =
   entry.id?.replace(/^galleries\//, "").replace(/\.[^.]+$/, "") ||
   entry.slug ||
   gallerySlug
 ---
 
-<Layout title={`${title} — Christopher Campbell`}>
+<Layout title={`${title} — Christopher Campbell`} img={coverUrl}>
   <Header title={title}>
     {
       newsletterUrl && (
