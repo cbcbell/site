@@ -29,7 +29,7 @@ if (!entry) {
 
 const { title, newsletterUrl } = entry.data
 const cover = entry.data.cover
-const coverUrl = cover ? getImage({ src: cover.src, format: "jpg" }) : undefined
+const coverUrl = cover ? getImage({ src: cover, format: "jpg" }) : undefined
 const galleryFolder =
   entry.id?.replace(/^galleries\//, "").replace(/\.[^.]+$/, "") ||
   entry.slug ||
