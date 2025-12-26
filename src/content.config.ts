@@ -2,7 +2,7 @@ import type { ImageMetadata } from "astro"
 import { defineCollection, z } from "astro:content"
 
 const coverImages = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/sync/gallery-covers/*.{jpg,jpeg,png}",
+  "~/assets/sync/gallery-covers/*.{jpg,jpeg,png}",
   { eager: true },
 )
 
@@ -39,6 +39,7 @@ const galleries = defineCollection({
         return {
           ...data,
           cover: cover?.default,
+          coverUrl: `https://s3.us-west-001.backblazeb2.com/cbcampbell-com/gallery-covers/${data.type}-${data.typeSlug}.jpg`,
         }
       }),
 })

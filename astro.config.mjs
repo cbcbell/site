@@ -1,6 +1,7 @@
 // @ts-check
 import mdx from "@astrojs/mdx"
-import { defineConfig, fontProviders } from "astro/config"
+import { defineConfig } from "astro/config"
+import { fileURLToPath } from "node:url"
 import tailwindcss from "@tailwindcss/vite"
 
 // https://astro.build/config
@@ -34,6 +35,14 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      alias: {
+        "~": fileURLToPath(new URL("./src", import.meta.url)),
+      },
+    },
+  },
+  image: {
+    domains: ["s3.us-west-001.backblazeb2.com"],
   },
   redirects: {
     "/paintings": "/works/paintings",
