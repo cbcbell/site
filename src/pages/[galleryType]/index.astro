@@ -15,8 +15,13 @@ const galleries = (await getCollection("galleries")).filter(
   (entry) => entry.data.type === galleryType,
 )
 
-// Sort alphabetically by title for a consistent grid
-galleries.sort((a, b) => a.data.title.localeCompare(b.data.title))
+// Sort by explicit order, then title as a fallback
+galleries.sort((a, b) => {
+  const orderA = a.data.order ?? Number.POSITIVE_INFINITY
+  const orderB = b.data.order ?? Number.POSITIVE_INFINITY
+  if (orderA !== orderB) return orderA - orderB
+  return a.data.title.localeCompare(b.data.title)
+})
 ---
 
 <Layout

@@ -27,6 +27,7 @@ const galleries = defineCollection({
         type: z.enum(["works", "series", "process"]),
         typeSlug: z.string(),
         newsletterUrl: z.string().url().optional(),
+        order: z.number().optional(),
       })
       .transform((data) => {
         const coverSlug = `${data.type}-${data.typeSlug}`
