@@ -21,6 +21,7 @@ const galleries = defineCollection({
       type: z.enum(["works", "series", "process"]),
       cover: image(),
       coverAlt: z.string().optional(),
+      newsletterUrl: z.string().url().optional(),
     }),
 })
 
