@@ -6,9 +6,23 @@ type Props = {
   href: string
   title: string
   image?: ImageMetadata
+  coverSlug?: string
+  alt?: string
 }
 
-const { href, title, image } = Astro.props as Props
+const coverImages = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/sync/gallery-covers/*.{jpg,jpeg,png}",
+  { eager: true },
+)
+
+const { href, title, image, coverSlug, alt } = Astro.props as Props
+const cover =
+  image ??
+  (coverSlug
+    ? (coverImages[`../assets/sync/gallery-covers/${coverSlug}.jpg`]?.default ??
+      coverImages[`../assets/sync/gallery-covers/${coverSlug}.jpeg`]?.default ??
+      coverImages[`../assets/sync/gallery-covers/${coverSlug}.png`]?.default)
+    : undefined)
 ---
 
 <a href={href} class="group block">
@@ -17,10 +31,10 @@ const { href, title, image } = Astro.props as Props
   >
     <div class="aspect-2/1 w-full bg-neutral-200 md:aspect-2/3">
       {
-        image ? (
+        cover ? (
           <Image
-            src={image}
-            alt="Christopher Campbell painting"
+            src={cover}
+            alt={alt ?? "Christopher Campbell painting"}
             class="h-full w-full object-cover"
             sizes="(min-width: 1024px) 25vw, (min-width: 768px) 30vw, 100vw"
             loading="lazy"
