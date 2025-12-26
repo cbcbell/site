@@ -35,4 +35,11 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  redirects: {
+    "/paintings": "/works/paintings",
+    "/drawings": "/works/paper",
+    "/photographs": "/works/photographs",
+    "/painting-process": "/process/painting",
+    "/photo-process": "/process/photo",
+  },
 })
