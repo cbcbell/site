@@ -65,7 +65,7 @@ const galleryImages = await Promise.all(
           href={image.src.src}
           target="_blank"
           data-fancybox="gallery"
-          data-caption={image.caption || image.alt || title}
+          data-caption={image.caption}
         >
           <Image
             src={image.src}
