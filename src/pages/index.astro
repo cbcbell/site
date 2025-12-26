@@ -6,9 +6,12 @@ import NewsletterIssue from "~/components/NewsletterIssue.astro"
 import Header from "~/components/Header.astro"
 import Socials from "~/components/Socials.astro"
 import { Vimeo } from "astro-embed"
+const featuredGalleries = ["cloudburst", "deluge", "dispersions"]
 
 const galleryLinks = (
-  await getCollection("galleries", ({ data }) => data.type === "series")
+  await getCollection("galleries", ({ slug }) =>
+    featuredGalleries.includes(slug),
+  )
 )
   .map((gallery) => ({
     href: `/series/${gallery.data.slug ?? gallery.slug ?? ""}`,
@@ -16,6 +19,10 @@ const galleryLinks = (
     image: gallery.data.cover,
     alt: gallery.data.coverAlt ?? gallery.data.title,
   }))
+  .sort(
+    (a, b) =>
+      featuredGalleries.indexOf(a.slug) - featuredGalleries.indexOf(b.slug),
+  )
 
 const newsletters = (await getCollection("newsletters")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
