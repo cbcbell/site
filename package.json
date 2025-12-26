@@ -9,7 +9,7 @@
     "astro": "astro",
     "format": "prettier --write **/*.{astro,js,ts,md,mdx,json,css}",
     "sync": "bun run --bun lib/sync-galleries.ts",
-    "vercel-build": "bun run sync"
+    "vercel-build": "bun run sync && bun run build"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",

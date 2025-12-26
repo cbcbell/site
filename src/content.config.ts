@@ -2,7 +2,7 @@ import type { ImageMetadata } from "astro"
 import { defineCollection, z } from "astro:content"
 
 const coverImages = import.meta.glob<{ default: ImageMetadata }>(
-  "./assets/sync/gallery-covers/*.{jpg,jpeg,png}",
+  "/src/assets/sync/gallery-covers/*.{jpg,jpeg,png}",
   { eager: true },
 )
 
@@ -32,9 +32,9 @@ const galleries = defineCollection({
       .transform((data) => {
         const coverSlug = `${data.type}-${data.typeSlug}`
         const cover =
-          coverImages[`./assets/sync/gallery-covers/${coverSlug}.jpg`] ??
-          coverImages[`./assets/sync/gallery-covers/${coverSlug}.jpeg`] ??
-          coverImages[`./assets/sync/gallery-covers/${coverSlug}.png`]
+          coverImages[`/src/assets/sync/gallery-covers/${coverSlug}.jpg`] ??
+          coverImages[`/src/assets/sync/gallery-covers/${coverSlug}.jpeg`] ??
+          coverImages[`/src/assets/sync/gallery-covers/${coverSlug}.png`]
 
         return {
           ...data,
