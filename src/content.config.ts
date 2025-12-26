@@ -2,9 +2,18 @@ import type { ImageMetadata } from "astro"
 import { defineCollection, z } from "astro:content"
 
 const coverImages = import.meta.glob<{ default: ImageMetadata }>(
-  "~/assets/sync/gallery-covers/*.{jpg,jpeg,png}",
+  "./assets/sync/gallery-covers/*.{jpg,jpeg,png}",
   { eager: true },
 )
+
+const coverImageMap = Object.entries(coverImages).reduce<
+  Record<string, ImageMetadata>
+>((acc, [path, mod]) => {
+  const filename = path.split("/").pop()
+  const [slug] = filename?.split(".") ?? []
+  if (slug) acc[slug] = mod.default
+  return acc
+}, {})
 
 const newsletters = defineCollection({
   type: "content",
@@ -31,10 +40,7 @@ const galleries = defineCollection({
       })
       .transform((data) => {
         const coverSlug = `${data.type}-${data.typeSlug}`
-        const cover =
-          coverImages[`/src/assets/sync/gallery-covers/${coverSlug}.jpg`] ??
-          coverImages[`/src/assets/sync/gallery-covers/${coverSlug}.jpeg`] ??
-          coverImages[`/src/assets/sync/gallery-covers/${coverSlug}.png`]
+        const cover = coverImageMap[coverSlug]
 
         return {
           ...data,
