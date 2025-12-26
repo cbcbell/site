@@ -24,15 +24,16 @@ const galleries = defineCollection({
     z
       .object({
         title: z.string(),
-        slug: z.string(),
         type: z.enum(["works", "series", "process"]),
+        typeSlug: z.string(),
         newsletterUrl: z.string().url().optional(),
       })
       .transform((data) => {
+        const coverSlug = `${data.type}-${data.typeSlug}`
         const cover =
-          coverImages[`./assets/sync/gallery-covers/${data.slug}.jpg`] ??
-          coverImages[`./assets/sync/gallery-covers/${data.slug}.jpeg`] ??
-          coverImages[`./assets/sync/gallery-covers/${data.slug}.png`]
+          coverImages[`./assets/sync/gallery-covers/${coverSlug}.jpg`] ??
+          coverImages[`./assets/sync/gallery-covers/${coverSlug}.jpeg`] ??
+          coverImages[`./assets/sync/gallery-covers/${coverSlug}.png`]
 
         return {
           ...data,

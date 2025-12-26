@@ -9,7 +9,7 @@ export async function getStaticPaths() {
   return entries.map((entry) => ({
     params: {
       galleryType: entry.data.type,
-      gallerySlug: entry.data.slug || entry.slug,
+      gallerySlug: entry.data.typeSlug || entry.slug,
     },
   }))
 }
@@ -19,14 +19,15 @@ const entries = await getCollection("galleries")
 const entry = entries.find(
   (item) =>
     item.data.type === galleryType &&
-    (item.data.slug === gallerySlug || item.slug === gallerySlug),
+    (item.data.typeSlug === gallerySlug || item.slug === gallerySlug),
 )
 
 if (!entry) {
   return Astro.redirect("/works")
 }
 
-const { title, newsletterUrl, cover } = entry.data
+const { title, newsletterUrl } = entry.data
+const cover = entry.data.cover
 const galleryFolder =
   entry.id?.replace(/^galleries\//, "").replace(/\.[^.]+$/, "") ||
   entry.slug ||
