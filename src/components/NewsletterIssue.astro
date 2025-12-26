@@ -11,10 +11,14 @@ type Props = {
 }
 
 const { title, date, url, image, imageAlt = title } = Astro.props as Props
+
+const dateValue = date instanceof Date ? date : new Date(date)
+const dateISO = dateValue.toISOString().slice(0, 10)
 const formattedDate = new Intl.DateTimeFormat("en", {
   month: "long",
   year: "numeric",
-}).format(date)
+  timeZone: "UTC",
+}).format(new Date(dateISO))
 ---
 
 <a
@@ -23,7 +27,7 @@ const formattedDate = new Intl.DateTimeFormat("en", {
 >
   <div class="">
     <span class="block leading-snug text-pretty">{title}</span>
-    <time dateTime={date} class="text-sm text-neutral-500">
+    <time datetime={dateISO} class="text-sm text-neutral-500">
       {formattedDate}
     </time>
   </div>

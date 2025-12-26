@@ -25,3 +25,4 @@ pnpm-debug.log*
 
 /*.html
 src/assets/sync/*
+.vercel
