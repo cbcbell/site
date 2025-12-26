@@ -24,11 +24,6 @@ const galleryImages = await Promise.all(
     .sort(([pathA], [pathB]) => pathA.localeCompare(pathB))
     .map(async ([path, mod]) => {
       const filename = path.split("/").pop() || title
-      const alt =
-        filename
-          .replace(/\.[^.]+$/, "")
-          .replace(/[_-]+/g, " ")
-          .trim() || title
 
       let caption: string | undefined
       try {
@@ -41,6 +36,7 @@ const galleryImages = await Promise.all(
       } catch {
         caption = undefined
       }
+      const alt = caption?.includes(". ") ? caption.split(". ")[0] : title
 
       return {
         src: mod.default,
@@ -53,46 +49,30 @@ const galleryImages = await Promise.all(
 )
 ---
 
-{
-  galleryImages.length ? (
-    <section
-      class="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-8 lg:grid-cols-4"
-      id="fancybox"
-    >
-      {galleryImages.map((image, i) => (
-        <a
-          style={`--width: ${image.width}; --height: ${image.height};`}
-          href={image.src.src}
-          target="_blank"
-          data-fancybox="gallery"
-          data-caption={image.caption}
-        >
-          <Image
-            src={image.src}
-            alt={image.alt || title}
-            class="h-full w-full object-cover"
-            loading={i < 8 ? "eager" : "lazy"}
-            sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
-          />
-        </a>
-      ))}
-    </section>
-  ) : (
-    <section class="mt-8">
-      {cover ? (
+<section
+  class="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-6 lg:grid-cols-4"
+  id="fancybox"
+>
+  {
+    galleryImages.map((image, i) => (
+      <a
+        style={`--width: ${image.width}; --height: ${image.height};`}
+        href={image.src.src}
+        target="_blank"
+        data-fancybox="gallery"
+        data-caption={image.caption}
+      >
         <Image
-          src={cover}
-          alt={title}
-          class="w-full max-w-4xl"
-          loading="lazy"
-          sizes="(min-width: 1024px) 60vw, 100vw"
+          src={image.src}
+          alt={image.alt}
+          class="h-full w-full object-cover"
+          loading={i < 8 ? "eager" : "lazy"}
+          sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
         />
-      ) : (
-        <p class="text-neutral-500">Images coming soon.</p>
-      )}
-    </section>
-  )
-}
+      </a>
+    ))
+  }
+</section>
 
 <script>
   import { Fancybox } from "@fancyapps/ui/dist/fancybox/"
