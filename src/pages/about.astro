@@ -18,16 +18,18 @@ import CV from "~/content/about/cv.mdx"
   >
     <Image
       src={portrait}
-      alt="Christopher Campbell working in the studio"
+      alt="Portrait of Christopher Campbell"
       class="w-full object-cover"
       sizes="(min-width: 1024px) 40vw, 100vw"
       loading="eager"
+      fetchpriority="high"
     />
     <div>
       <section
         class="text-trim-start prose prose-neutral mb-8 max-w-none text-lg leading-relaxed md:mb-12 md:text-xl"
       >
         <Bio />
+        <hr class="mt-8 lg:mt-12" />
       </section>
       <section
         class="prose prose-neutral prose-ul:list-none prose-ul:pl-0 prose-li:pl-0 max-w-none leading-relaxed"
