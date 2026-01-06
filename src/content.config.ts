@@ -18,7 +18,7 @@ const galleries = defineCollection({
     z
       .object({
         title: z.string(),
-        type: z.enum(["works", "series", "process"]),
+        type: z.enum(["works", "series", "process", "shared"]),
         typeSlug: z.string(),
         newsletterUrl: z.string().url().optional(),
         order: z.number().optional(),

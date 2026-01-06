@@ -5,12 +5,17 @@ import Header from "~/components/Header.astro"
 import GalleryLink from "~/components/GalleryLink.astro"
 
 export async function getStaticPaths() {
-  return ["works", "series", "process"].map((galleryType) => ({
+  return ["works", "series", "process", "shared"].map((galleryType) => ({
     params: { galleryType },
   }))
 }
 
 const { galleryType } = Astro.params
+
+if (galleryType === "shared") {
+  return Astro.redirect("/")
+}
+
 const galleries = (await getCollection("galleries")).filter(
   (entry) => entry.data.type === galleryType,
 )
