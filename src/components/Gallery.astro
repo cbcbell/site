@@ -65,7 +65,7 @@ const galleryImages = await Promise.all(
         <Image
           src={image.src}
           alt={image.alt}
-          class="h-full w-full object-cover"
+          class="aspect-square h-full w-full object-cover"
           loading={i < 8 ? "eager" : "lazy"}
           sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
         />
