@@ -18,21 +18,25 @@ const imageModules = import.meta.glob<{ default: ImageMetadata }>(
   { eager: true },
 )
 
+const decodeUtf8 = (value?: unknown) =>
+  typeof value === "string"
+    ? Buffer.from(value, "latin1").toString("utf8")
+    : value
+
 const galleryImages = await Promise.all(
   Object.entries(imageModules)
     .filter(([path]) => path.includes(`/${galleryFolder}/`))
     .sort(([pathA], [pathB]) => pathA.localeCompare(pathB))
     .map(async ([path, mod]) => {
-      const filename = path.split("/").pop() || title
+      // const filename = path.split("/").pop() || title
 
       let caption: string | undefined
+      let year: string | undefined
       try {
         const filePath = join(process.cwd(), "src/components", path)
-        const exif = await exifr.parse(filePath, [
-          "ImageDescription",
-          "Description",
-        ])
+        const exif = await exifr.parse(filePath, { iptc: true })
         caption = exif?.ImageDescription || exif?.Description
+        year = decodeUtf8(exif?.Sublocation ?? "")?.replace("-", "–")
       } catch {
         caption = undefined
       }
@@ -44,6 +48,7 @@ const galleryImages = await Promise.all(
         height: mod.default.height,
         alt,
         caption,
+        year,
       }
     }),
 )
@@ -61,6 +66,7 @@ const galleryImages = await Promise.all(
         target="_blank"
         data-fancybox="gallery"
         data-caption={image.caption}
+        data-year={image.year}
       >
         <Image
           src={image.src}
@@ -74,6 +80,17 @@ const galleryImages = await Promise.all(
   }
 </section>
 
+<style>
+  #fancybox a {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+  #fancybox a::after {
+    content: attr(data-year);
+  }
+</style>
 <script>
   import { Fancybox } from "@fancyapps/ui/dist/fancybox/"
 
