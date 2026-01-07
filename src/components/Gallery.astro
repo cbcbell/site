@@ -18,7 +18,7 @@ const imageModules = import.meta.glob<{ default: ImageMetadata }>(
   { eager: true },
 )
 
-const decodeUtf8 = (value?: unknown) =>
+const decodeUtf8 = (value?: string): string =>
   typeof value === "string"
     ? Buffer.from(value, "latin1").toString("utf8")
     : value
@@ -52,6 +52,7 @@ const galleryImages = await Promise.all(
       }
     }),
 )
+const hasYear = galleryImages.some((image) => !!image.year)
 ---
 
 <section
@@ -80,17 +81,19 @@ const galleryImages = await Promise.all(
   }
 </section>
 
-<style>
-  #fancybox a {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    text-align: center;
-  }
-  #fancybox a::after {
-    content: attr(data-year);
-  }
-</style>
+{hasYear && (
+  <style>
+    #fancybox a {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: center;
+    }
+    #fancybox a::after {
+      content: attr(data-year);
+    }
+  </style>
+)}
 <script>
   import { Fancybox } from "@fancyapps/ui/dist/fancybox/"
 
