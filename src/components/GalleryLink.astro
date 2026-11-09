@@ -1,6 +1,7 @@
 ---
 import type { ImageMetadata } from "astro"
 import { Image } from "astro:assets"
+import ArrowRight from "../assets/icons/arrow-right.svg"
 
 type Props = {
   href: string
@@ -48,12 +49,10 @@ const cover =
     </div>
     <div class="flex items-end justify-between gap-3 text-lg md:text-xl">
       <span>{title}</span>
-      <span
-        aria-hidden
-        class="text-neutral-500 transition duration-150 ease-out group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5"
-      >
-        →
-      </span>
+      <ArrowRight
+        aria-hidden="true"
+        class="size-5 shrink-0 opacity-50 transition duration-150 ease-out group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5"
+      />
     </div>
   </div>
 </a>

@@ -4,6 +4,7 @@ import { getCollection } from "astro:content"
 import Layout from "~/layouts/Layout.astro"
 import Header from "~/components/Header.astro"
 import Gallery from "~/components/Gallery.astro"
+import ArrowUpRight from "~/assets/icons/arrow-up-right.svg"
 
 export async function getStaticPaths() {
   const entries = await getCollection("galleries")
@@ -31,33 +32,24 @@ const { title, newsletterUrl, coverUrl } = entry.data
 const cover = entry.data.cover
 // const coverUrl = cover ? getImage({ src: cover, format: "jpg" }) : undefined
 const galleryFolder =
-  entry.id?.replace(/^galleries\//, "").replace(/\.[^.]+$/, "") ||
-  gallerySlug
+  entry.id?.replace(/^galleries\//, "").replace(/\.[^.]+$/, "") || gallerySlug
 ---
 
 <Layout title={`${title} — Christopher Campbell`} img={coverUrl}>
   <Header title={title}>
-    {
-      newsletterUrl && (
-        <a
-          class="border-box border border-black px-4 py-2 text-sm transition hover:bg-black hover:text-white focus-visible:bg-black focus-visible:text-white"
-          href={newsletterUrl}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Read about the series
-          <span class="-mr-1 inline-flex align-text-top">
-            <svg fill="currentColor" viewBox="0 0 16 16" width="16" height="16">
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M6.75011 4H6.00011V5.5H6.75011H9.43945L5.46978 9.46967L4.93945 10L6.00011 11.0607L6.53044 10.5303L10.499 6.56182V9.25V10H11.999V9.25V5C11.999 4.44772 11.5512 4 10.999 4H6.75011Z"
-              />
-            </svg>
-          </span>
-        </a>
-      )
-    }
+    {newsletterUrl && (
+      <a
+        class="border-box border border-black px-4 py-2 text-sm transition hover:bg-black hover:text-white focus-visible:bg-black focus-visible:text-white"
+        href={newsletterUrl}
+        target="_blank"
+        rel="noreferrer"
+      >
+        Read about the series
+        <span class="ml-1 inline-flex align-text-top">
+          <ArrowUpRight aria-hidden="true" class="size-4" />
+        </span>
+      </a>
+    )}
   </Header>
 
   <Gallery galleryFolder={galleryFolder} title={title} cover={cover} />
