@@ -18,7 +18,7 @@ const galleryLinks = (
   })
   .slice(0, 3)
   .map((gallery) => {
-    const slug = gallery.data.typeSlug || gallery.slug
+    const slug = gallery.data.typeSlug || gallery.id
     return {
       href: `/series/${slug}`,
       title: gallery.data.title,

@@ -10,7 +10,7 @@ export async function getStaticPaths() {
   return entries.map((entry) => ({
     params: {
       galleryType: entry.data.type,
-      gallerySlug: entry.data.typeSlug || entry.slug,
+      gallerySlug: entry.data.typeSlug || entry.id,
     },
   }))
 }
@@ -20,7 +20,7 @@ const entries = await getCollection("galleries")
 const entry = entries.find(
   (item) =>
     item.data.type === galleryType &&
-    (item.data.typeSlug === gallerySlug || item.slug === gallerySlug),
+    (item.data.typeSlug === gallerySlug || item.id === gallerySlug),
 )
 
 if (!entry) {
@@ -32,7 +32,6 @@ const cover = entry.data.cover
 // const coverUrl = cover ? getImage({ src: cover, format: "jpg" }) : undefined
 const galleryFolder =
   entry.id?.replace(/^galleries\//, "").replace(/\.[^.]+$/, "") ||
-  entry.slug ||
   gallerySlug
 ---
 

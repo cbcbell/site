@@ -1,27 +1,18 @@
 // @ts-check
 import mdx from "@astrojs/mdx"
-import { defineConfig } from "astro/config"
+import { defineConfig, fontProviders } from "astro/config"
 import { fileURLToPath } from "node:url"
 import tailwindcss from "@tailwindcss/vite"
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [mdx()],
-  experimental: {
-    fonts: [
-      /*
-      {
-        name: "Geist",
-        cssVariable: "--font-geist",
-        fallbacks: ["system-ui", "sans-serif"],
-        provider: fontProviders.google(),
-        weights: ["400", "600"],
-      },
-      */
-      {
-        name: "ABCCameraPlain",
-        cssVariable: "--font-camera-plain",
-        provider: "local",
+  fonts: [
+    {
+      name: "ABCCameraPlain",
+      cssVariable: "--font-camera-plain",
+      provider: fontProviders.local(),
+      options: {
         variants: [
           {
             src: [
@@ -31,8 +22,8 @@ export default defineConfig({
           },
         ],
       },
-    ],
-  },
+    },
+  ],
   vite: {
     plugins: [tailwindcss()],
     resolve: {
