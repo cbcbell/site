@@ -82,7 +82,10 @@ describe("fetchGalleryObject", () => {
       return new Response(null, { status: 500 })
     }) as typeof fetch
     await expect(
-      fetchGalleryObject(url, key, { fetch: fetchObject, wait: async () => {} }),
+      fetchGalleryObject(url, key, {
+        fetch: fetchObject,
+        wait: async () => {},
+      }),
     ).rejects.toThrow(`Failed to fetch ${key}: 500`)
     expect(calls).toBe(5)
   })

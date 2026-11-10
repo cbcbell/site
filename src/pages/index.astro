@@ -35,14 +35,14 @@ const newsletters = (await getCollection("newsletters")).sort(
   title="Christopher Campbell"
   desc="A painter and photographer with studios in Pennsylvania and Minnesota."
 >
-  <Header
-    title="A painter and photographer with studios in Pennsylvania and Minnesota."
-  />
+  <Header title="A painter and photographer with studios in Pennsylvania and Minnesota." />
 
   <section class="grid gap-12 lg:grid-cols-[2fr_1fr] lg:gap-16">
     <div>
       <div class="mb-8 grid gap-6 md:mb-12 md:grid-cols-3 md:gap-8">
-        {galleryLinks.map((item) => <GalleryLink {...item} />)}
+        {galleryLinks.map((item) => (
+          <GalleryLink {...item} />
+        ))}
       </div>
 
       <Vimeo
@@ -83,7 +83,9 @@ const newsletters = (await getCollection("newsletters")).sort(
           </button>
         </form>
 
-        {newsletters.map((issue) => <NewsletterIssue {...issue.data} />)}
+        {newsletters.map((issue) => (
+          <NewsletterIssue {...issue.data} />
+        ))}
       </div>
 
       <Socials />

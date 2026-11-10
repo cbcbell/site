@@ -38,7 +38,10 @@ const galleries = defineCollection({
 })
 
 const workingVocabulary = defineCollection({
-  loader: glob({ pattern: "**/*.mdx", base: "./src/content/workingVocabulary" }),
+  loader: glob({
+    pattern: "**/*.mdx",
+    base: "./src/content/workingVocabulary",
+  }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),

@@ -63,7 +63,7 @@ p a {
 
 ::view-transition-group(root) {
   animation-duration: 0.375s;
-  /* prettier-ignore */
+  /* oxfmt-ignore */
   animation-timing-function: linear(
     0, 0.218 2.1%, 0.862 6.5%, 1.114, 1.296 10.7%, 1.346, 1.37 12.9%, 1.373,
     1.364 14.5%, 1.315 16.2%, 1.032 21.8%, 0.941 24%, 0.891 25.9%, 0.877,

@@ -11,7 +11,7 @@ type Props = {
   cover?: ImageMetadata
 }
 
-const { galleryFolder, title, cover } = Astro.props
+const { galleryFolder, title } = Astro.props
 const gallerySizes =
   "(min-width: 80rem) 18.125rem, (min-width: 64rem) calc(25vw - 1.875rem), (min-width: 48rem) calc(33.333vw - 1.667rem), (min-width: 40rem) calc(50vw - 1.5rem), calc(100vw - 2rem)"
 
@@ -20,7 +20,7 @@ const imageModules = import.meta.glob<{ default: ImageMetadata }>(
   { eager: true },
 )
 
-const decodeUtf8 = (value?: string): string =>
+const decodeUtf8 = (value: string): string =>
   typeof value === "string"
     ? Buffer.from(value, "latin1").toString("utf8")
     : value

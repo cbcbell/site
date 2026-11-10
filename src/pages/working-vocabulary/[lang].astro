@@ -32,49 +32,45 @@ const imagesGroups = imageGroups
 <Layout title={`${title} — Christopher Campbell`}>
   <Header title={title}>
     <div class="flex items-center gap-2 text-sm">
-      {
-        LANGUAGES.map(({ code, label }) => (
-          <a
-            href={`/working-vocabulary/${code}`}
-            class:list={[
-              "px-3 py-1 transition",
-              code === lang
-                ? "bg-black text-white"
-                : "bg-neutral-100 hover:bg-neutral-200",
-            ]}
-            aria-current={code === lang ? "page" : "false"}
-          >
-            {label}
-          </a>
-        ))
-      }
+      {LANGUAGES.map(({ code, label }) => (
+        <a
+          href={`/working-vocabulary/${code}`}
+          class:list={[
+            "px-3 py-1 transition",
+            code === lang
+              ? "bg-black text-white"
+              : "bg-neutral-100 hover:bg-neutral-200",
+          ]}
+          aria-current={code === lang ? "page" : "false"}
+        >
+          {label}
+        </a>
+      ))}
     </div>
   </Header>
 
   <section class="mt-16 flex flex-col gap-8 lg:gap-24">
-    {
-      sections.map((section, index) => {
-        const imgs = imagesGroups[index] ?? []
-        return (
-          <div class="grid gap-6 md:gap-12">
-            <div class="max-w-2xl">
-              <h2 class="mb-4 text-xl md:text-3xl">{section.heading}</h2>
-              <p class="text-base leading-relaxed md:text-lg">{section.body}</p>
-            </div>
-            <div class="grid items-center gap-4 md:grid-cols-2 md:gap-8">
-              {imgs.map((img) => (
-                <Image
-                  src={img}
-                  alt=""
-                  class="w-full object-contain"
-                  loading="lazy"
-                  sizes="(min-width: 1024px) 30vw, 100vw"
-                />
-              ))}
-            </div>
+    {sections.map((section, index) => {
+      const imgs = imagesGroups[index] ?? []
+      return (
+        <div class="grid gap-6 md:gap-12">
+          <div class="max-w-2xl">
+            <h2 class="mb-4 text-xl md:text-3xl">{section.heading}</h2>
+            <p class="text-base leading-relaxed md:text-lg">{section.body}</p>
           </div>
-        )
-      })
-    }
+          <div class="grid items-center gap-4 md:grid-cols-2 md:gap-8">
+            {imgs.map((img) => (
+              <Image
+                src={img}
+                alt=""
+                class="w-full object-contain"
+                loading="lazy"
+                sizes="(min-width: 1024px) 30vw, 100vw"
+              />
+            ))}
+          </div>
+        </div>
+      )
+    })}
   </section>
 </Layout>

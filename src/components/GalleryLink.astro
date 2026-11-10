@@ -27,25 +27,21 @@ const cover =
 ---
 
 <a href={href} class="group block">
-  <div
-    class="flex flex-col gap-4 transition hover:opacity-90 focus-visible:opacity-90"
-  >
+  <div class="flex flex-col gap-4 transition hover:opacity-90 focus-visible:opacity-90">
     <div class="aspect-2/1 w-full bg-neutral-200 md:aspect-2/3">
-      {
-        cover ? (
-          <Image
-            src={cover}
-            alt={alt ?? "Christopher Campbell painting"}
-            class="h-full w-full object-cover"
-            sizes="(min-width: 1024px) 25vw, (min-width: 768px) 30vw, 100vw"
-            loading="lazy"
-          />
-        ) : (
-          <div class="flex h-full items-center justify-center text-sm text-neutral-500">
-            Image coming soon
-          </div>
-        )
-      }
+      {cover ? (
+        <Image
+          src={cover}
+          alt={alt ?? "Christopher Campbell painting"}
+          class="h-full w-full object-cover"
+          sizes="(min-width: 1024px) 25vw, (min-width: 768px) 30vw, 100vw"
+          loading="lazy"
+        />
+      ) : (
+        <div class="flex h-full items-center justify-center text-sm text-neutral-500">
+          Image coming soon
+        </div>
+      )}
     </div>
     <div class="flex items-end justify-between gap-3 text-lg md:text-xl">
       <span>{title}</span>
