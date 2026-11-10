@@ -2,6 +2,7 @@ import { rm } from "node:fs/promises"
 import { join } from "node:path"
 import { fileURLToPath } from "node:url"
 import { S3Client } from "bun"
+import { fetchGalleryObject } from "./fetch-gallery-object"
 
 const bucket = "cbcampbell-com"
 
@@ -56,11 +57,7 @@ async function downloadObject(key: string) {
 
   try {
     const url = S3Client.presign(key, credentials)
-    const res = await fetch(url)
-    if (!res.ok) {
-      throw new Error(`Failed to fetch ${key}: ${res.status} ${res.statusText}`)
-    }
-    const body = await res.arrayBuffer()
+    const body = await fetchGalleryObject(url, key)
     await Bun.write(targetPath, body, { createPath: true })
     return true
   } catch (error) {
