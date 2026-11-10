@@ -36,7 +36,7 @@ const galleryImages = await Promise.all(
       let year: string | undefined
       try {
         const filePath = join(process.cwd(), "src/components", path)
-        const exif = await exifr.parse(filePath, { iptc: true })
+        const exif = await exifr.parse(filePath, { iptc: true, chunked: false })
         caption = exif?.ImageDescription || exif?.Description
         year = decodeUtf8(exif?.Sublocation ?? "")?.replace("-", "–")
       } catch {
