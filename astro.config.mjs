@@ -1,12 +1,13 @@
 // @ts-check
 import mdx from "@astrojs/mdx"
+import react from "@astrojs/react"
 import { defineConfig, fontProviders } from "astro/config"
 import { fileURLToPath } from "node:url"
 import tailwindcss from "@tailwindcss/vite"
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [mdx()],
+  integrations: [mdx(), react()],
   fonts: [
     {
       name: "ABCCameraPlain",

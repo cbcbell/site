@@ -1,9 +1,9 @@
 ---
 import type { ImageMetadata } from "astro"
-import { Image } from "astro:assets"
+import { getImage } from "astro:assets"
 import exifr from "exifr"
 import { join } from "node:path"
-import "@fancyapps/ui/dist/fancybox/fancybox.css"
+import GalleryViewer from "./GalleryViewer"
 
 type Props = {
   galleryFolder: string
@@ -12,6 +12,8 @@ type Props = {
 }
 
 const { galleryFolder, title, cover } = Astro.props
+const gallerySizes =
+  "(min-width: 80rem) 18.125rem, (min-width: 64rem) calc(25vw - 1.875rem), (min-width: 48rem) calc(33.333vw - 1.667rem), (min-width: 40rem) calc(50vw - 1.5rem), calc(100vw - 2rem)"
 
 const imageModules = import.meta.glob<{ default: ImageMetadata }>(
   "../assets/sync/**/*.{jpg,jpeg,png}",
@@ -42,8 +44,17 @@ const galleryImages = await Promise.all(
       }
       const alt = caption?.includes(". ") ? caption.split(". ")[0] : title
 
-      return {
+      const thumbnail = await getImage({
         src: mod.default,
+        width: Math.min(mod.default.width, 1280),
+        sizes: gallerySizes,
+        widths: [64, 128, 192, 320, 640, 960, 1280],
+      })
+
+      return {
+        src: mod.default.src,
+        thumbnail: thumbnail.src,
+        srcSet: thumbnail.srcSet.attribute,
         width: mod.default.width,
         height: mod.default.height,
         alt,
@@ -52,73 +63,11 @@ const galleryImages = await Promise.all(
       }
     }),
 )
-const hasYear = galleryImages.some((image) => !!image.year)
 ---
 
-<section
-  class="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-6 lg:grid-cols-4"
-  id="fancybox"
->
-  {
-    galleryImages.map((image, i) => (
-      <a
-        style={`--width: ${image.width}; --height: ${image.height};`}
-        href={image.src.src}
-        target="_blank"
-        data-fancybox="gallery"
-        data-caption={image.caption}
-        data-year={image.year}
-      >
-        <Image
-          src={image.src}
-          alt={image.alt}
-          class="aspect-square h-full w-full object-cover"
-          loading={i < 8 ? "eager" : "lazy"}
-          sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
-        />
-      </a>
-    ))
-  }
-</section>
-
-{hasYear && (
-  <style>
-    #fancybox a {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      text-align: center;
-    }
-    #fancybox a::after {
-      content: attr(data-year);
-    }
-  </style>
-)}
-<script>
-  import { Fancybox } from "@fancyapps/ui/dist/fancybox/"
-
-  Fancybox.bind("[data-fancybox]", {
-    theme: "auto",
-    mainStyle: {
-      "--f-button-width": "44px",
-      "--f-button-height": "44px",
-      "--f-button-border-radius": "50%",
-      "--f-toolbar-padding": "16px",
-      "--f-toolbar-gap": "8px",
-    },
-    Carousel: {
-      Arrows: true,
-      Thumbs: {
-        showOnStart: false,
-      },
-      Toolbar: {
-        display: {
-          left: [],
-          middle: [],
-          right: ["toggleFull", "thumbs", "close"],
-        },
-      },
-      transition: "slide",
-    },
-  })
-</script>
+<GalleryViewer
+  client:load
+  images={galleryImages}
+  title={title}
+  sizes={gallerySizes}
+/>
