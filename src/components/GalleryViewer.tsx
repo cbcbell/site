@@ -14,6 +14,8 @@ type GalleryImage = {
   srcSet: string
   width: number
   height: number
+  fullWidth: number
+  fullHeight: number
   alt: string
   caption?: string
   year?: string
@@ -133,11 +135,14 @@ export default function GalleryViewer({ images, title, sizes }: Props) {
                   aria-label={`${i + 1} of ${images.length}`}
                 >
                   <Lightbox.Zoom>
-                    <Lightbox.Media width={image.width} height={image.height}>
+                    <Lightbox.Media
+                      width={image.fullWidth}
+                      height={image.fullHeight}
+                    >
                       <img
                         src={image.src}
-                        width={image.width}
-                        height={image.height}
+                        width={image.fullWidth}
+                        height={image.fullHeight}
                         alt={image.alt}
                       />
                     </Lightbox.Media>

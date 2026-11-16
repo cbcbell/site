@@ -19,6 +19,10 @@ const imageModules = import.meta.glob<{ default: ImageMetadata }>(
   "../assets/sync/**/*.{jpg,jpeg,png}",
   { eager: true },
 )
+const avifModules = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/sync/**/*.avif",
+  { eager: true },
+)
 
 const decodeUtf8 = (value: string): string =>
   typeof value === "string"
@@ -50,13 +54,18 @@ const galleryImages = await Promise.all(
         sizes: gallerySizes,
         widths: [64, 128, 192, 320, 640, 960, 1280],
       })
+      const fullImage =
+        avifModules[path.replace(/\.(jpg|jpeg|png)$/, ".avif")]?.default ??
+        mod.default
 
       return {
-        src: mod.default.src,
+        src: fullImage.src,
         thumbnail: thumbnail.src,
         srcSet: thumbnail.srcSet.attribute,
         width: mod.default.width,
         height: mod.default.height,
+        fullWidth: fullImage.width,
+        fullHeight: fullImage.height,
         alt,
         caption,
         year,
